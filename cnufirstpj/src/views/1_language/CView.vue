@@ -2,17 +2,23 @@
   <div>
     <h3>코딩연습이다!!!!!</h3>
   </div>
-  <div :key="word" v-for="(word, index) in wordArr">
-    <p>{{ word }}</p>
+  <div v-bind:style="divStyle" :key="index" v-for="(word, index) in wordArr">
+    <p style="margin: block end 0.5em">{{ word }}</p>
+    <p>{{ index }}</p>
     <input
       type="text"
       v-focus
-      @keyup.enter="typing(index)"
-      @keyup.space="typing(index)"
+      @keydown.enter="typing(index)"
+      @keydown.space="typing(index)"
       v-if="canType[index]"
       v-model="input"
     />
   </div>
+  <div>
+    <br /><br /><br />
+    <br /><br /><br />
+  </div>
+  <h3>{{ input }}</h3>
   <h3>{{ wordArr }}</h3>
   <h3>{{ canType }}</h3>
 </template>
@@ -45,7 +51,12 @@ export default {
       wordArr: [], // 타이핑 할 단어 배열
       canType: [true, false, false, false, false], // 타이핑 단어 순서
       input: '', // 타이핑 입력 데이터
-      randNum: 0
+      randNum: 0,
+      divStyle: {
+        width: '200px',
+        height: '100px',
+        float: 'left'
+      }
     }
   },
   setup() {},
@@ -61,11 +72,12 @@ export default {
   methods: {
     typing(idx) {
       // enter
+      console.log(this.wordArr)
       this.canType[idx] = false
       idx++
       if (idx > 4) {
-        idx = 0
         this.wordArr = []
+        idx = 0
         this.makeWordArr()
       }
       this.canType[idx] = true
@@ -78,6 +90,7 @@ export default {
       }
     },
     randomNum(min, max) {
+      this.randNum = 0
       this.randNum = Math.floor(Math.random() * (max - min + 1) + min)
     }
   }
