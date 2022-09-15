@@ -16,7 +16,7 @@
       type="text"
       v-focus
       @keydown.enter="nextUpdate(index, index2)"
-      @keyup.space="nextUpdate(index, index2)"
+      @keydown.space="nextUpdate(index, index2)"
       v-if="canType[index]"
       v-model="currentInput"
     />
@@ -79,7 +79,9 @@ export default {
   watch: {
     currentInput(newValue, oldValue) {
       this.currentInputLen = this.currentInput.length
-
+      if (newValue == ' ') {
+        this.currentInput = ''
+      }
       if (newValue.length < oldValue.length) {
         // 지우기가 실행되었으면
         this.tempArr2[oldValue.length - 1] = 'color: black;'
@@ -155,7 +157,7 @@ export default {
     makeWordArr() {
       // 다시 색깔 바꾸어야 하니까 초기화
       this.currentWordType = []
-      //
+
       this.currentWordIndex = 0
 
       // wordArr 초기화
