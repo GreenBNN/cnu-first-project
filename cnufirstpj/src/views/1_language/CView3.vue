@@ -83,7 +83,7 @@ export default {
         this.currentInput = ''
       }
       if (newValue.length < oldValue.length) {
-        // 지우기가 실행되었으면
+        // 지우기가 실행되었으면 : 기환; @click.delete 이벤트 받으면 실행되는 함수로 하면 좋을 듯
         this.tempArr2[oldValue.length - 1] = 'color: black;'
       } else if (this.currentInputLen > this.currentWordLen) {
       } else {
@@ -108,8 +108,8 @@ export default {
       this.randomNum(0, 8)
       this.wordArr.push(this.wordData[this.randNum])
     }
-    this.$refs.type?.focus()
-    // 초기 현재 단어, 길이 초기화
+    // this.$refs.type?.focus()
+    // 초기 현재 단어, 길이 초기화 // 기환 ; type? 이게 뭐지?
     this.currentWordLen = this.wordArr[0].length
     for (let i = 0; i < this.currentWordLen; i++) {
       this.currentWord[i] = this.wordArr[0][i]
