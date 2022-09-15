@@ -23,6 +23,22 @@ const routes = [
       import(
         /* webpackChunkName: "langauge", webpackPrefetch: true */ '../views/1_language/CView.vue'
       )
+  },
+  {
+    path: '/language/c2',
+    name: 'CView2',
+    component: () =>
+      import(
+        /* webpackChunkName: "langauge", webpackPrefetch: true */ '../views/1_language/CView2.vue'
+      )
+  },
+  {
+    path: '/language/c3',
+    name: 'CView3',
+    component: () =>
+      import(
+        /* webpackChunkName: "langauge", webpackPrefetch: true */ '../views/1_language/CView3.vue'
+      )
   }
 ]
 

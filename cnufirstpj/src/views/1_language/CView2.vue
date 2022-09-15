@@ -5,8 +5,8 @@
   <div :style="divStyle" :key="index" v-for="(word, index) in wordArr">
     <span
       :key="char"
-      v-for="(char, index) in word"
-      :style="currentWordType[index]"
+      v-for="(char, index2) in word"
+      :style="currentWordType[index][index2]"
     >
       {{ char }}
     </span>
@@ -15,8 +15,8 @@
     <input
       type="text"
       v-focus
-      @keydown.enter="nextUpdate(index)"
-      @keydown.space="nextUpdate(index)"
+      @keydown.enter="nextUpdate(index, index2)"
+      @keydown.space="nextUpdate(index, index2)"
       v-if="canType[index]"
       v-model="currentInput"
     />
@@ -56,13 +56,16 @@ export default {
         'scan'
       ],
       wordArr: [], // 타이핑 할 단어 배열
+      wordLen: [],
       canType: [true, false, false, false, false], // 타이핑 단어 순서 / true 가 타이핑 해야하는 단어
       currentWord: [], // 타이핑해야하는 단어의 char 들
-      currenWordIndex: 0,
+      currentWordIndex: 0, // 타이핑 해야하는 단어의 순서
+      currentCharIndex: 0, // 타이핑 해야하는 단어의 글자 순서
       currentWordType: [], // input 과 비교 / 일치하면 black, 틀리면 red
       currentWordLen: 0, // 타이핑 해야하는 단어의 길이
       currentInput: '', // 타이핑 입력 데이터
       tempArr: [],
+      tempArr2: [],
 
       randNum: 0,
       divStyle: {
@@ -74,13 +77,15 @@ export default {
   },
   watch: {
     currentInput() {
-      // 주어진 문자열 글자와 입력된 문자 비교
-      console.log(this.currentInput.length - 1)
-      this.compare(
-        this.currentWord[this.currentInput.length - 1],
-        this.currentInput[this.currentInput.length - 1],
-        this.currentInput.length - 1
-      )
+      if (this.currenCharIndex != 0) {
+        // 주어진 문자열 글자와 입력된 문자 비교
+        this.compare(
+          this.currentWord[this.currentInput.length - 1],
+          this.currentInput[this.currentInput.length - 1],
+          this.currentWordIndex,
+          this.currentCharIndex++
+        )
+      }
     }
   },
   setup() {},
@@ -95,18 +100,27 @@ export default {
     this.currentWordLen = this.wordArr[0].length
     for (let i = 0; i < this.currentWordLen; i++) {
       this.currentWord[i] = this.wordArr[0][i]
-      this.currentWordType[i] = 'color: black;'
+    }
+    for (let i = 0; i < 5; i++) {
+      this.wordLen[i] = this.wordArr[i].length
+      for (let j = 0; j < this.wordLen[i]; j++) {
+        this.tempArr[j] = 'color: black;'
+      }
+      console.log(this.tempArr)
+      this.currentWordType.push(this.tempArr)
+      this.tempArr = []
     }
   },
   unmounted() {},
   methods: {
-    nextUpdate(idx) {
+    nextUpdate(idx, idx2) {
       // Enter 시 문자열 비교 함수 구현
 
       // 현재 입력된 Input, Word 초기화
       this.currentInput = ''
       this.currentWord = []
-      this.currenWordIndex = idx + 1
+      this.currentWordIndex = idx + 1 // 비교해야하는 기준 문자열
+      this.currentCharIndex = 0 // 입력된 문자
       this.currentWordType = []
 
       // Enter 시 Input
@@ -122,8 +136,10 @@ export default {
       this.currentWordLen = this.wordArr[idx].length
       for (let i = 0; i < this.currentWordLen; i++) {
         this.currentWord[i] = this.wordArr[idx][i]
-        this.currentWordType[i] = 'color: black;'
+        this.tempArr[i] = 'color: black;'
       }
+      this.currentWordType.push(this.tempArr)
+      this.tempArr = []
     },
     makeWordArr() {
       for (let i = 0; i < 5; i++) {
@@ -135,17 +151,19 @@ export default {
       this.randNum = 0
       this.randNum = Math.floor(Math.random() * (max - min + 1) + min)
     },
-    compare(a, b, idx) {
+    compare(a, b, idx, idx2) {
       console.log(a)
       console.log(b)
-      console.log(idx)
 
-      if (b == ' ' || a == b) {
+      if (a == b) {
         // 문자가 같으면 색 black
-        this.currentWordType[idx] = 'color: black;'
+        this.tempArr2 = this.currentWordType[idx]
+        this.tempArr2[idx2] = 'color: black;'
       } else {
-        this.currentWordType[idx] = 'color: red;'
+        this.tempArr2 = this.currentWordType[idx]
+        this.tempArr2[idx2] = 'color: red;'
       }
+      console.log(this.tempArr2[idx2])
     }
   }
 }

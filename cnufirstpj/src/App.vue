@@ -3,6 +3,8 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link> |
     <router-link to="/language/c">Pr</router-link> |
+    <router-link to="/language/c2">Pr2</router-link> |
+    <router-link to="/language/c3">Pr3</router-link> |
   </nav>
   <router-view />
 </template>
