@@ -1,5 +1,5 @@
 <template>
-  <!-- 이제 input 칸에 포커스 하게 해주는 거랑, 다 입력하면 새로 랜덤하게 불러오는 기능 만들면 됨. -->
+  <!-- 이제 다 입력하면 새로 랜덤하게 불러오는 기능 만들면 됨. -->
   <div>
     <div :key="index" v-for="(word, index) in RandSelectedWordArr">
       <div>
@@ -7,6 +7,7 @@
         <input
           @keyup.enter="index = gotoNextInput(index)"
           type="text"
+          v-focus="focusBool"
           :class="{ hideInput: hideBool[index] }"
           v-model="typedArr[index]"
         />
@@ -18,7 +19,18 @@
   </div>
 </template>
 <script>
+const focus = {
+  // custom directive 만들어서, mounted 될 때랑 el 값이 update 될 때 포커스를 el에 맞추도록 했음.
+  // el 옵션은 Vue 인스턴스에 연결할 HTML DOM 요소를 지정
+  mounted: (el) => el.focus(),
+  updated: (el) => el.focus()
+}
 export default {
+  name: 'CustomDirective',
+  // focus 라는 custom Directive 만들어서 v-focus로 쓰기.
+  directives: {
+    focus
+  },
   name: '',
   components: {},
   data() {
@@ -27,6 +39,7 @@ export default {
       selectedWordIndex: 0,
       RandSelectedWordArr: [],
       hideBool: [],
+      focusBool: true,
 
       CwordArr: [
         // C 언어에서 사용하는 단어들 배열
@@ -73,8 +86,6 @@ export default {
       return RandSelectedWordArr
     },
     gotoNextInput(index) {
-      console.log(this.selectedWordIndex, index)
-      console.log(this.hideBool)
       this.changeNowNextBool(index)
       return index + 1
     },
@@ -85,6 +96,10 @@ export default {
 
     testf(toSee) {
       console.log(this.toSee)
+    },
+    focusOn() {
+      this.$refs.input1.focus()
+      // template에서 ref 태그로 input이라고 이름 지어준 곳에 포커스를 맞춤.
     }
   }
 }
