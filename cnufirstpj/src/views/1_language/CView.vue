@@ -67,6 +67,7 @@ export default {
       currentInputLen: 0,
       tempArr: [],
       tempArr2: [],
+      tempidx: 0,
 
       randNum: 0,
       divStyle: {
@@ -79,15 +80,16 @@ export default {
   watch: {
     currentInput(newValue, oldValue) {
       this.currentInputLen = this.currentInput.length
-      if (newValue == ' ') {
+      if (newValue === ' ') {
         this.currentInput = ''
       }
       if (newValue.length < oldValue.length) {
         // 지우기가 실행되었으면
         this.tempArr2[oldValue.length - 1] = 'color: black;'
-      } else if (this.currentInputLen > this.currentWordLen) {
+      } else if (this.currentInputLen > this.currentWordLen + 1) {
+        this.nextUpdate(this.tempidx)
       } else {
-        if (this.currenCharIndex != 0) {
+        if (this.currenCharIndex !== 0) {
           // 주어진 문자열 글자와 입력된 문자 비교
           for (let i = 0; i < this.currentInputLen; i++) {
             this.compare(
@@ -108,7 +110,7 @@ export default {
       this.randomNum(0, 8)
       this.wordArr.push(this.wordData[this.randNum])
     }
-    //this.$refs.type?.focus()
+    // this.$refs.type?.focus()
     // 초기 현재 단어, 길이 초기화
     this.currentWordLen = this.wordArr[0].length
     for (let i = 0; i < this.currentWordLen; i++) {
@@ -153,6 +155,7 @@ export default {
       }
 
       this.canType[idx] = true
+      this.tempidx = idx
     },
     makeWordArr() {
       // 다시 색깔 바꾸어야 하니까 초기화
@@ -193,7 +196,7 @@ export default {
       console.log(idx)
       console.log(idx2)
       console.log(this.currentWordType[idx])
-      if (a == b) {
+      if (a === b) {
         // 문자가 같으면 색 black
         this.tempArr2 = this.currentWordType[idx]
         this.tempArr2[idx2] = 'color: black;'
