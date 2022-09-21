@@ -11,6 +11,7 @@
             @keyup.enter="index = gotoNextInput(index)"
             type="text"
             v-focus
+            v-model="word.UserInput"
             :class="{ hideInput: hideBool[index] }"
           />
         </div>
@@ -41,19 +42,19 @@ export default {
 
       CwordArr: [
         // C 언어에서 사용하는 단어들 배열
-        { value: 'apple', originidx: 0 },
-        { value: 'scan', originidx: 1 },
-        { value: 'circle', originidx: 2 },
-        { value: 'water', originidx: 3 },
-        { value: 'pipe', originidx: 4 },
-        { value: 'man', originidx: 5 },
-        { value: 'because', originidx: 6 },
-        { value: 'xor', originidx: 8 },
-        { value: 'cannot', originidx: 9 },
-        { value: 'nono', originidx: 10 },
-        { value: ';', originidx: 11 },
-        { value: 'disjunction', originidx: 12 },
-        { value: 'conjunction', originidx: 13 }
+        { value: 'apple', originidx: 0, UserInput: '' },
+        { value: 'scan', originidx: 1, UserInput: '' },
+        { value: 'circle', originidx: 2, UserInput: '' },
+        { value: 'water', originidx: 3, UserInput: '' },
+        { value: 'pipe', originidx: 4, UserInput: '' },
+        { value: 'man', originidx: 5, UserInput: '' },
+        { value: 'because', originidx: 6, UserInput: '' },
+        { value: 'xor', originidx: 8, UserInput: '' },
+        { value: 'cannot', originidx: 9, UserInput: '' },
+        { value: 'nono', originidx: 10, UserInput: '' },
+        { value: ';', originidx: 11, UserInput: '' },
+        { value: 'disjunction', originidx: 12, UserInput: '' },
+        { value: 'conjunction', originidx: 13, UserInput: '' }
       ]
     }
   },
@@ -93,6 +94,7 @@ export default {
           this.numberToSelect
         )
         this.visibleNextOf(-1)
+        this.typedText = []
         // index가 0인 input 칸이 보이도록 함
         return 0
       }
