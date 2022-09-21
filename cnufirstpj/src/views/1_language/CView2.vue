@@ -8,7 +8,8 @@
           <br />
           <br />
           <input
-            @keyup.enter="index = gotoNextInput(index)"
+            @keydown.enter="index = gotoNextInput(index)"
+            @keydown="compareInputToWord($event)"
             type="text"
             v-focus
             v-model="word.UserInput"
@@ -39,6 +40,9 @@ export default {
       selectedWordIndex: 0,
       RandSelectedWordArr: [],
       hideBool: [],
+      specialKeyCodes: [
+        61, 186, 187, 188, 189, 190, 191, 192, 219, 220, 221, 222
+      ],
 
       CwordArr: [
         // C 언어에서 사용하는 단어들 배열
@@ -103,6 +107,38 @@ export default {
     visibleNextOf(index) {
       this.hideBool[index] = true
       this.hideBool[index + 1] = false
+    },
+    compareInputToWord(event) {
+      if (
+        this.isNumberKey(event) ||
+        this.isLetterKey(event) ||
+        this.isSpecialKey(event)
+      ) {
+        console.log('anan')
+      }
+    },
+    isNumberKey(event) {
+      if (event.keyCode >= 48 && event.keyCode <= 57) {
+        // keyCode range of numbers
+        return true
+      } else {
+        return false
+      }
+    },
+    isLetterKey(event) {
+      if (event.keyCode >= 65 && event.keyCode <= 90) {
+        // keyCode range of letters
+        return true
+      } else {
+        return false
+      }
+    },
+    isSpecialKey(event) {
+      if (this.specialKeyCodes.includes(event.keyCode)) {
+        return true
+      } else {
+        return false
+      }
     }
   }
 }
