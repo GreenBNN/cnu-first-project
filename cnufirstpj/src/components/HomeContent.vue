@@ -1,16 +1,27 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>안녕하세요</h2>
+    <h2>
+      This is a project description <br />
+      make for ~~~ <br />
+      make by ~~~~<br />how to use
+    </h2>
+    <div id="Clanguages">
+      <router-link
+        to="/language/c2"
+        :class="{ languageBox: true, noLinkDeco: true }"
+      >
+        C</router-link
+      >
+      <div :class="{ languageBox: true }">C++</div>
+      <div :class="{ languageBox: true }">Python</div>
+      <div :class="{ languageBox: true }">Java</div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HomeContent',
-  props: {
-    msg: String
-  }
+  name: 'HomeContent'
 }
 </script>
 
@@ -29,5 +40,25 @@ li {
 }
 a {
   color: #42b983;
+}
+
+#Clanguages {
+  font-size: x-large;
+  display: flex;
+  justify-content: center;
+}
+
+.languageBox {
+  font-weight: bold;
+  width: 80px;
+  height: 50px;
+  padding: 50px;
+  background-color: yellow;
+  margin: 50px;
+}
+
+.noLinkDeco {
+  text-decoration: none;
+  color: inherit;
 }
 </style>
