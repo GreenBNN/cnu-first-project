@@ -3,7 +3,7 @@
     <h2>
       This is a project description <br />
       make for ~~~ <br />
-      make by ~~~~<br />how to use
+      make by ~~~~<br />how to use<br />
     </h2>
     <div id="Clanguages">
       <router-link
@@ -60,5 +60,9 @@ a {
 .noLinkDeco {
   text-decoration: none;
   color: inherit;
+}
+
+.hoveringHand {
+  cursor: pointer;
 }
 </style>

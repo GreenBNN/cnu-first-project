@@ -4,8 +4,17 @@
       <router-link :class="{ noLinkDeco: true }" to="/Login">Login</router-link>
       <div>
         <router-link to="/Option">
-          <font-awesome-icon icon="fa-solid fa-gear" size="lg" /></router-link
-        ><font-awesome-icon icon="fa-solid fa-toggle-on" size="lg" />
+          <font-awesome-icon
+            icon="fa-solid fa-gear"
+            style="margin: 10px"
+            size="lg" /></router-link
+        ><font-awesome-icon
+          :class="{ hoveringHand: true }"
+          :icon="['fas', darkMode ? 'toggle-off' : 'toggle-on']"
+          @click="changeMode"
+          style="margin: 10px"
+          size="lg"
+        />
       </div>
     </nav>
     <router-link :class="{ noLinkDeco: true, LargeBold: true }" to="/"
@@ -18,7 +27,26 @@
 <script>
 export default {
   name: 'App',
-  methods: {}
+  data() {
+    return {
+      darkMode: false,
+      bodyStyles: document.body.style
+    }
+  },
+  methods: {
+    changeMode(Mode) {
+      if (this.darkMode === false) {
+        this.darkMode = true
+        this.bodyStyles.setProperty('--text-color', 'white')
+        this.bodyStyles.setProperty('--background-color', 'black')
+      } else {
+        this.darkMode = false
+        this.bodyStyles.setProperty('--text-color', 'black')
+        this.bodyStyles.setProperty('--background-color', 'skyblue')
+      }
+      console.log(this.darkMode)
+    }
+  }
 }
 </script>
 <style>
@@ -46,11 +74,21 @@ nav a.router-link-exact-active {
   color: #42b983;
 }
 
-* {
-  background: skyblue;
+:root {
+  --text-color: black;
+  --background-color: skyblue;
+}
+
+body {
+  color: var(--text-color);
+  background: var(--background-color);
 }
 
 button {
+  cursor: pointer;
+}
+
+.hoveringHand {
   cursor: pointer;
 }
 
@@ -67,5 +105,9 @@ button {
 .LargeBold {
   font-size: xxx-large;
   font-weight: bold;
+}
+
+.darkMode {
+  background-color: black;
 }
 </style>
