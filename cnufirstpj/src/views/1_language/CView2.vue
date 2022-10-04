@@ -1,7 +1,7 @@
 <template>
   <div>
     <div><h1>코딩 타자 연습</h1></div>
-    <div :class="{ flex: true, rowDirectionItems: true, centerItems: true }">
+    <div :class="{ flex: true, centerItems: true }">
       <div :key="index" v-for="(word, index) in RandSelectedWordArr">
         <div :class="{ columnDirectionItems: true }">
           <br />
@@ -15,7 +15,9 @@
           <br />
           <br />
           <input
-            @keyup.enter="index = gotoNextInput(index)"
+            @keydown.enter="index = gotoNextInput(index, word)"
+            @keydown.delete="reducecharIdxInWord"
+            @keydown="compareAndChangeColor($event, word, index)"
             type="text"
             v-focus
             v-model="currentInput"
@@ -46,6 +48,9 @@ export default {
       selectedWordIndex: 0,
       RandSelectedWordArr: [],
       hideBool: [],
+      wrongCharBool: [],
+      specialKeyCodes: [61, 186, 187, 188, 189, 190, 191, 192, 219, 220, 221, 222],
+      charIdxInWord: 0,
 
       CwordArr: [
         // C 언어에서 사용하는 단어들 배열
@@ -84,6 +89,7 @@ export default {
   mounted() {
     this.RandSelectedWordArr = this.RandSelectFunction(this.CwordArr, this.numberToSelect)
     for (let i = 0; i < this.numberToSelect; i++) {
+      this.wrongCharBool.push([])
       if (i === 0) {
         this.hideBool[i] = false
       } else {
@@ -107,11 +113,13 @@ export default {
     gotoNextInput(index) {
       this.currentInput = ''
       this.visibleNextOf(index)
+      this.charIdxInWord = 0
+      word.UserInput = ''
+      // 해당 단어에 input으로 넣었던 값 초기화.
       if (index + 1 === this.numberToSelect) {
         // index가 끝에 다다르면 새로 RandSelect 함.
         this.RandSelectedWordArr = this.RandSelectFunction(this.CwordArr, this.numberToSelect)
         this.visibleNextOf(-1)
-        this.typedText = []
         // index가 0인 input 칸이 보이도록 함
 
         //각 글자별 색깔 bool 값 초기화

@@ -31,6 +31,22 @@ const routes = [
       import(
         /* webpackChunkName: "langauge", webpackPrefetch: true */ '../views/1_language/CView2.vue'
       )
+  },
+  {
+    path: '/Login',
+    name: 'Login',
+    component: () =>
+      import(
+        /* webpackChunkName: "langauge", webpackPrefetch: true */ '../views/LoginView.vue'
+      )
+  },
+  {
+    path: '/Option',
+    name: 'Option',
+    component: () =>
+      import(
+        /* webpackChunkName: "langauge", webpackPrefetch: true */ '../views/OptionView.vue'
+      )
   }
 ]
 
