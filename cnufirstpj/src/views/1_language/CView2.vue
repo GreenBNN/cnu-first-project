@@ -4,14 +4,21 @@
     <div :class="{ flex: true, rowDirectionItems: true, centerItems: true }">
       <div :key="index" v-for="(word, index) in RandSelectedWordArr">
         <div :class="{ columnDirectionItems: true }">
-          {{ word.value }}
+          <br />
+          <span
+            :key="index2"
+            v-for="(char, index2) in word.value"
+            :class="{ charColor: currentWordCharColor[index][index2] }"
+          >
+            {{ char }}
+          </span>
           <br />
           <br />
           <input
             @keyup.enter="index = gotoNextInput(index)"
             type="text"
             v-focus
-            v-model="word.UserInput"
+            v-model="currentInput"
             :class="{ hideInput: hideBool[index] }"
           />
         </div>
@@ -42,35 +49,47 @@ export default {
 
       CwordArr: [
         // C 언어에서 사용하는 단어들 배열
-        { value: 'apple', originidx: 0, UserInput: '' },
-        { value: 'scan', originidx: 1, UserInput: '' },
-        { value: 'circle', originidx: 2, UserInput: '' },
-        { value: 'water', originidx: 3, UserInput: '' },
-        { value: 'pipe', originidx: 4, UserInput: '' },
-        { value: 'man', originidx: 5, UserInput: '' },
-        { value: 'because', originidx: 6, UserInput: '' },
-        { value: 'xor', originidx: 8, UserInput: '' },
-        { value: 'cannot', originidx: 9, UserInput: '' },
-        { value: 'nono', originidx: 10, UserInput: '' },
-        { value: ';', originidx: 11, UserInput: '' },
-        { value: 'disjunction', originidx: 12, UserInput: '' },
-        { value: 'conjunction', originidx: 13, UserInput: '' }
-      ]
+        { value: 'apple', originidx: 0 },
+        { value: 'scan', originidx: 1 },
+        { value: 'circle', originidx: 2 },
+        { value: 'water', originidx: 3 },
+        { value: 'pipe', originidx: 4 },
+        { value: 'man', originidx: 5 },
+        { value: 'because', originidx: 6 },
+        { value: 'xor', originidx: 8 },
+        { value: 'cannot', originidx: 9 },
+        { value: 'nono', originidx: 10 },
+        { value: ';', originidx: 11 },
+        { value: 'disjunction', originidx: 12 },
+        { value: 'conjunction', originidx: 13 }
+      ],
+      currentWordCharColor: [], // input 과 비교 / 기본/일치 false(black), 틀리면 true(red)
+      currentInput: '',
+      currentWordIndex: 0,
+      tempArr: []
+    }
+  },
+  watch: {
+    currentInput(newValue, oldValue) {
+      if (newValue.length > this.RandSelectedWordArr[this.currentWordIndex].value.length) {
+        // 문자 길이 오버
+        this.gotoNextInput(this.currentWordIndex)
+      } else {
+        this.wordCompareFunction(newValue, oldValue)
+      }
     }
   },
   setup() {},
   created() {},
   mounted() {
-    this.RandSelectedWordArr = this.RandSelectFunction(
-      this.CwordArr,
-      this.numberToSelect
-    )
+    this.RandSelectedWordArr = this.RandSelectFunction(this.CwordArr, this.numberToSelect)
     for (let i = 0; i < this.numberToSelect; i++) {
       if (i === 0) {
         this.hideBool[i] = false
       } else {
         this.hideBool[i] = true
       }
+      this.setCurrentWordCharColor()
     }
   },
   unmounted() {},
@@ -86,23 +105,56 @@ export default {
       return RandSelectedWordArr
     },
     gotoNextInput(index) {
+      this.currentInput = ''
       this.visibleNextOf(index)
       if (index + 1 === this.numberToSelect) {
         // index가 끝에 다다르면 새로 RandSelect 함.
-        this.RandSelectedWordArr = this.RandSelectFunction(
-          this.CwordArr,
-          this.numberToSelect
-        )
+        this.RandSelectedWordArr = this.RandSelectFunction(this.CwordArr, this.numberToSelect)
         this.visibleNextOf(-1)
         this.typedText = []
         // index가 0인 input 칸이 보이도록 함
+
+        //각 글자별 색깔 bool 값 초기화
+        this.setCurrentWordCharColor()
+        this.currentWordIndex = 0
         return 0
       }
+      this.currentWordIndex = index + 1
+
       return index + 1
     },
     visibleNextOf(index) {
       this.hideBool[index] = true
       this.hideBool[index + 1] = false
+    },
+    setCurrentWordCharColor() {
+      this.currentWordCharColor = []
+      this.tempArr = []
+      for (let i = 0; i < this.numberToSelect; i++) {
+        // 각 글자별 색깔 bool 값 초기화
+        for (let j = 0; j < this.RandSelectedWordArr[i].value.length; j++) {
+          this.tempArr[j] = false
+        }
+        this.tempArr = []
+        this.currentWordCharColor.push(this.tempArr)
+      }
+    },
+    wordCompareFunction(newValue, oldValue) {
+      var compareChar = this.currentInput[newValue.length - 1]
+      var compareChar2 = this.RandSelectedWordArr[this.currentWordIndex].value[newValue.length - 1]
+      console.log(this.currentWordIndex)
+
+      if (compareChar === compareChar2) {
+        // 문자열 같으면 검은색 / 틀리면 빨간색
+        this.currentWordCharColor[this.currentWordIndex][newValue.length - 1] = false
+      } else {
+        this.currentWordCharColor[this.currentWordIndex][newValue.length - 1] = true
+      }
+      if (newValue.length < oldValue.length) {
+        //delete 시 이전값 검은색
+        this.currentWordCharColor[this.currentWordIndex][oldValue.length - 1] = false
+      }
+      console.log(this.currentWordCharColor)
     }
   }
 }
@@ -122,5 +174,8 @@ export default {
 }
 .centerItems {
   justify-content: center;
+}
+.charColor {
+  color: red;
 }
 </style>
