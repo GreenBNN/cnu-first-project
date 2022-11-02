@@ -114,12 +114,12 @@ export default {
       this.currentInput = ''
       this.visibleNextOf(index)
       this.charIdxInWord = 0
-      word.UserInput = ''
       // 해당 단어에 input으로 넣었던 값 초기화.
       if (index + 1 === this.numberToSelect) {
         // index가 끝에 다다르면 새로 RandSelect 함.
         this.RandSelectedWordArr = this.RandSelectFunction(this.CwordArr, this.numberToSelect)
         this.visibleNextOf(-1)
+        console.log(index)
         // index가 0인 input 칸이 보이도록 함
 
         //각 글자별 색깔 bool 값 초기화

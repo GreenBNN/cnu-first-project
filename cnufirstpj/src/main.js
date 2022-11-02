@@ -11,17 +11,9 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /* import specific icons */
-import {
-  faGear,
-  faToggleOn,
-  faToggleOff
-} from '@fortawesome/free-solid-svg-icons'
+import { faGear, faToggleOn, faToggleOff } from '@fortawesome/free-solid-svg-icons'
 
 /* add icons to the library */
 library.add(faGear, faToggleOn, faToggleOff)
 
-createApp(App)
-  .use(store)
-  .use(router)
-  .component('font-awesome-icon', FontAwesomeIcon)
-  .mount('#app')
+createApp(App).use(store).use(router).component('font-awesome-icon', FontAwesomeIcon).mount('#app')

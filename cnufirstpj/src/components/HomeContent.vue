@@ -6,10 +6,7 @@
       make by ~~~~<br />how to use<br />
     </h2>
     <div id="Clanguages">
-      <router-link
-        to="/language/c2"
-        :class="{ languageBox: true, noLinkDeco: true }"
-      >
+      <router-link to="/language/c2" :class="{ languageBox: true, noLinkDeco: true }">
         C</router-link
       >
       <div :class="{ languageBox: true }">C++</div>
