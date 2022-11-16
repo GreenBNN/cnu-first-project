@@ -1,0 +1,15 @@
+[
+  { "value": "apple", "originidx": 0 },
+  { "value": "scan", "originidx": 1 },
+  { "value": "circle", "originidx": 2 },
+  { "value": "water", "originidx": 3 },
+  { "value": "pipe", "originidx": 4 },
+  { "value": "man", "originidx": 5 },
+  { "value": "because", "originidx": 6 },
+  { "value": "xor", "originidx": 8 },
+  { "value": "cannot", "originidx": 9 },
+  { "value": "nono", "originidx": 10 },
+  { "value": ";", "originidx": 11 },
+  { "value": "disjunction", "originidx": 12 },
+  { "value": "conjunction", "originidx": 13 }
+]
