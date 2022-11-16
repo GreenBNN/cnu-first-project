@@ -31,6 +31,9 @@ ul {
   list-style-type: none;
   padding: 0;
 }
+.li:hover {
+  color: red;
+}
 li {
   display: inline-block;
   margin: 0 10px;
@@ -43,14 +46,15 @@ a {
   font-size: x-large;
   display: flex;
   justify-content: center;
+  color: black;
 }
 
 .languageBox {
   font-weight: bold;
-  width: 80px;
+  flex: 25%;
   height: 50px;
   padding: 50px;
-  background-color: yellow;
+  background-color: #feffcc;
   margin: 50px;
 }
 

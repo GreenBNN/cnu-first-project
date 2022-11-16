@@ -4,10 +4,7 @@
       <router-link :class="{ noLinkDeco: true }" to="/Login">Login</router-link>
       <div>
         <router-link to="/Option">
-          <font-awesome-icon
-            icon="fa-solid fa-gear"
-            style="margin: 10px"
-            size="lg" /></router-link
+          <font-awesome-icon icon="fa-solid fa-gear" style="margin: 10px" size="lg" /></router-link
         ><font-awesome-icon
           :class="{ hoveringHand: true }"
           :icon="['fas', darkMode ? 'toggle-off' : 'toggle-on']"
@@ -37,12 +34,13 @@ export default {
     changeMode(Mode) {
       if (this.darkMode === false) {
         this.darkMode = true
+        // languageBox 글자색만 바뀌도록
         this.bodyStyles.setProperty('--text-color', 'white')
-        this.bodyStyles.setProperty('--background-color', 'black')
+        this.bodyStyles.setProperty('--background-color', '#282c34')
       } else {
         this.darkMode = false
-        this.bodyStyles.setProperty('--text-color', 'black')
-        this.bodyStyles.setProperty('--background-color', 'skyblue')
+        this.bodyStyles.setProperty('--text-color', '#333333')
+        this.bodyStyles.setProperty('--background-color', '#e5ecfd')
       }
       console.log(this.darkMode)
     }
@@ -55,7 +53,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  /* color: #2c3e50; */
 }
 
 nav {
@@ -76,7 +74,7 @@ nav a.router-link-exact-active {
 
 :root {
   --text-color: black;
-  --background-color: skyblue;
+  --background-color: #e5ecfd;
 }
 
 body {
@@ -108,6 +106,6 @@ button {
 }
 
 .darkMode {
-  background-color: black;
+  background-color: #282c34;
 }
 </style>
